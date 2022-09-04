@@ -245,13 +245,14 @@ async function 더하기() {
 });
 
 async function 더하기() {
+  // async 만 붙이면 promise 객체가 남음! promise 어쩌구 안 만들어줘도 됨. ㅇㅇ
   // 함수 앞에다만 붙일 수 있음!
   return 1 + 1; // 리턴 연산 결과를 출력해주고 싶다...!
-} // promise 객체가 남음! async 만 붙이면!
+}
 더하기().then(function () {
   console.log('결과');
 });
-//그런데...! 이건 성공만 가능합니다요....
+//그런데...! async 이건 성공만 가능합니다요....
 
 //async 안에서 쓰는 await!
 const 더하기 = async () => {
@@ -264,13 +265,13 @@ const 더하기 = async () => {
 };
 
 async function 더하기() {
+  // 함수 안에서 promise 쓰기!!
   var promise = new Promise(function (resolve, reject) {
     var 힘든연산 = 1 + 1;
-    resolve();
+    resolve(); // 성공 판정을 내리게 됨
   });
-
   // promise.then(function(){
-  //   console.log('성공했다구요!')
+  //   console.log('성공했다구요!') 프로미스 내 연산이 성공하면 이 코드를 실행해라... 라는 뜻.
   // });
   // try{이거 해보고 에러나면} catch{이걸 실행해보시죠} await은 실패가 없으니까... 방지하려면 try{} catch{} 쓰시오!
   try {
@@ -295,17 +296,10 @@ async function 더하기() {
   console.log(결과);
 }
 
-const gattConnectPromise = new Promise((resolve, reject) => {
-  dispatch(
-    bleAction.gattConnect(address, () => {
-      if (gattClientId !== '') {
-        resolve();
-      } else {
-        reject();
-      }
-    })
-  );
-});
+//async 자체로 promise 만들 수 있다는 걸 잊지 말자... 함수 앞에만 붙을 수 있음!
+const gattConnectPromise = async () => {
+  dispatch(bleAction.gattConnect(address));
+};
 
 //해당 어드레스를 클릭하면?
 const clickConnect = () => {
