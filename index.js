@@ -281,8 +281,7 @@ async function 더하기() {
     console.log('연산 망했어용');
   }
 }
-더하기();
-
+더하기(); // 클릭하면 이거 실행되게 만들면 이렇게 할 필요는 없어짐.(!!)
 //await은 실패 시 에러나고 멈춰버림...
 
 //버튼 누르면 성공 판정 나게 만들기
@@ -298,7 +297,24 @@ async function 더하기() {
 
 //async 자체로 promise 만들 수 있다는 걸 잊지 말자... 함수 앞에만 붙을 수 있음!
 const gattConnectPromise = async () => {
-  dispatch(bleAction.gattConnect(address));
+  const promise = new Promise(() => {
+    dispatch(bleAction.gattConnect(address));
+  });
+  promise.then(() => {
+    if (connectStatus.status === 'connecting') {
+      setConnecting(true);
+    }
+    setTimeout(() => {
+      //그 담에 이거 열건지 저거 열건지...
+      if (gattClientId !== '' && connectStatus.status === 'connected') {
+        setConnecting(false);
+        setConnected(true);
+      } else if (connectStatus.status === 'false') {
+        setConnecting(false);
+        setAlreadyConnected(true);
+      }
+    }, 1000);
+  });
 };
 
 //해당 어드레스를 클릭하면?
