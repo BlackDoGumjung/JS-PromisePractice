@@ -296,8 +296,10 @@ async function 더하기() {
 }
 
 //async 자체로 promise 만들 수 있다는 걸 잊지 말자... 함수 앞에만 붙을 수 있음!
-const gattConnectPromise = async () => {
-  const promise = new Promise(() => {
+const gattConnectPromise = async (address) => {
+  //이전에 필요한 연산들 여러가지ㅇㅇ
+  //address 가져오는 액션 있어야함.
+  const promise = new Promise((address) => {
     dispatch(bleAction.gattConnect(address));
   });
   promise.then(() => {
